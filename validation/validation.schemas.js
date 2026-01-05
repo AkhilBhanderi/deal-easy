@@ -8,6 +8,7 @@ module.exports = {
   verifyUserSchema: Joi.object().keys({
     mobile_no: validate.reqNumber,
     otp: validate.reqNumber,
+    fcm_token: validate.string,
   }),
   itemSchema: Joi.object({
     owner_name: validate.reqString,
