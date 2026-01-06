@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
         unique: true,
       },
       otp: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       active: {

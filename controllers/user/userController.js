@@ -28,11 +28,9 @@ module.exports = {
   checkUserExistence: async (req, res, next) => {
     try {
       const reqData = req.body;
-      console.log("reqData:", reqData);
 
       // Call the service to check if user exists
       const existingUser = await userService.checkUserExistence(reqData);
-      console.log("existingUser:", existingUser);
 
       const payload = {
         mobile_no: existingUser.mobile_no,
@@ -40,7 +38,6 @@ module.exports = {
       };
 
       var token = jwt.sign(payload, JWT_SECRET_KEY);
-      console.log("🚀 ~ checkUserExistence: ~ token:", token);
 
       return res.status(200).send({
         status: true,
