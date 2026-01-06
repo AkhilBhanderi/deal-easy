@@ -19,7 +19,7 @@ module.exports = {
       .pattern(/^[0-9]{6}$/)
       .required(),
     advance_money: validate.reqPositiveNumber,
-    deal_type: Joi.string().valid("rent", "sale").required(),
+    deal_type: Joi.string().valid("rent", "sell").required(),
     pet_type: validate.string,
     description_1: validate.string,
     description_2: validate.string,

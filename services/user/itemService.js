@@ -10,12 +10,13 @@ module.exports = {
       throw createError.InternalServerError(error);
     }
   },
-  getAllItems: async (deal_type, pagenumber = 1, limit = 10) => {
+  getAllItems: async (deal_type, user_id, pagenumber = 1, limit = 10) => {
     try {
       const offset = (pagenumber - 1) * limit;
       const whereCondition = {
         ...(deal_type && { deal_type }), // If deal_type is provided, add it to the filter
         active: true, // Always include the condition to fetch only active items
+        ...(user_id && { user_id }), // ✅ only added if user_id exists
       };
       const { rows: itemData } = await items.findAndCountAll({
         where: whereCondition,

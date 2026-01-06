@@ -28,6 +28,11 @@ router.post(
   itemController.addItem
 );
 router.get("/user/getallitem", userAuthentication, itemController.getAllItems);
+router.get(
+  "/user/getitem",
+  userAuthentication,
+  itemController.getPerticularItems
+);
 router.post(
   "/user/deleteitem",
   userAuthentication,

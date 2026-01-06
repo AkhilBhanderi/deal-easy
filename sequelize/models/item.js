@@ -2,6 +2,10 @@ module.exports = (sequelize, DataTypes) => {
   const Item = sequelize.define(
     "items",
     {
+      user_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
       owner_name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -27,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       deal_type: {
-        type: DataTypes.ENUM("rent", "sale"), // Assuming these are the only two possible values
+        type: DataTypes.ENUM("rent", "sell"), // Assuming these are the only two possible values
         allowNull: false,
       },
       pet_type: {
@@ -78,8 +82,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER, // True if property is being auctioned, otherwise false
         allowNull: false,
       },
-      image: {
-        type: DataTypes.STRING,
+      images: {
+        type: DataTypes.JSONB,
         allowNull: false,
       },
       active: {

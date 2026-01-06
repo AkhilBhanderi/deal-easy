@@ -24,7 +24,6 @@ module.exports = {
     if (!token)
       return next(createError.Unauthorized("Authorization Token Required"));
 
-    console.log("🚀 ~ employerAuthentication: ~ token:", token);
     token = token.split(" ")[1];
     jwt.verify(token, JWT_SECRET_KEY, async (err, result) => {
       if (err) {
@@ -37,7 +36,6 @@ module.exports = {
           data: [],
         });
       }
-      console.log("result", result);
       try {
         if (result && result.mobile_no) {
           const getUserData = await users.findOne({
@@ -54,6 +52,12 @@ module.exports = {
               isAuth: false,
               data: [],
             });
+
+          // ✅ Attach logged-in user to request
+          req.user = {
+            id: getUserData.id,
+            mobile_no: getUserData.mobile_no,
+          };
 
           return next();
         }
