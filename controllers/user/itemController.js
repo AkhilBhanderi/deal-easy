@@ -49,9 +49,9 @@ module.exports = {
       const { deal_type, pagenumber = 1, limit = 10 } = req.query;
       const { itemData } = await itemService.getAllItems(
         deal_type,
-        req.user.id,
         pagenumber,
-        limit
+        limit,
+        req.user.id
       );
       return res.status(200).send({
         status: true,

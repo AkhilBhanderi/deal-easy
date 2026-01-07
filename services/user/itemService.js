@@ -10,7 +10,7 @@ module.exports = {
       throw createError.InternalServerError(error);
     }
   },
-  getAllItems: async (deal_type, user_id, pagenumber = 1, limit = 10) => {
+  getAllItems: async (deal_type, pagenumber = 1, limit = 10, user_id) => {
     try {
       const offset = (pagenumber - 1) * limit;
       const whereCondition = {
