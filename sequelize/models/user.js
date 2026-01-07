@@ -17,10 +17,14 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      sequelize,
       modelName: "users",
     }
   );
+
+  // 🔗 Associations
+  User.associate = (models) => {
+    User.hasMany(models.carts, { foreignKey: "user_id" });
+  };
 
   return User;
 };

@@ -6,17 +6,20 @@ module.exports = {
     try {
       const reqData = req.body;
       reqData.user_id = req.user.id;
-      console.log("reqData.user_id", reqData.user_id);
+
       const uploadLocal = await upload.multipleImageUpload(req.files?.images);
 
       // ✅ Convert array of strings → array of objects
       if (uploadLocal?.status && uploadLocal?.data?.length) {
+        const baseUrl =
+          process.env.BASE_URL || "https://deal-easy.onrender.com";
+
         reqData.images = uploadLocal.data.map((imgPath) => ({
-          image: imgPath,
+          image: `${baseUrl}/${imgPath.replace(/^\/+/, "")}`,
         }));
       }
 
-      const addItem = await itemService.addItem(reqData);
+      await itemService.addItem(reqData);
 
       return res.status(200).send({
         status: true,

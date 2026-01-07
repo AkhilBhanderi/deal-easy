@@ -5,6 +5,10 @@ module.exports = (sequelize, DataTypes) => {
       user_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        references: {
+          model: "users",
+          key: "id",
+        },
       },
       owner_name: {
         type: DataTypes.STRING,
@@ -31,39 +35,19 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       deal_type: {
-        type: DataTypes.ENUM("rent", "sell"), // Assuming these are the only two possible values
+        type: DataTypes.ENUM("rent", "sell"),
         allowNull: false,
       },
       pet_type: {
         type: DataTypes.STRING,
-        allowNull: true, // This can be null if not provided
-      },
-      description_1: {
-        type: DataTypes.TEXT,
-        allowNull: true, // This can be null if not provided
-      },
-      description_2: {
-        type: DataTypes.TEXT,
-        allowNull: true,
-      },
-      description_3: {
-        type: DataTypes.TEXT,
-        allowNull: true,
-      },
-      description_4: {
-        type: DataTypes.TEXT,
-        allowNull: true,
-      },
-      description_5: {
-        type: DataTypes.TEXT,
         allowNull: true,
       },
       latitude: {
-        type: DataTypes.FLOAT, // Geolocation (latitude)
+        type: DataTypes.FLOAT,
         allowNull: false,
       },
       longitude: {
-        type: DataTypes.FLOAT, // Geolocation (longitude)
+        type: DataTypes.FLOAT,
         allowNull: false,
       },
       main_price: {
@@ -71,15 +55,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       property_type: {
-        type: DataTypes.STRING, // Type of property (e.g., house, apartment)
+        type: DataTypes.STRING,
         allowNull: false,
       },
-      location_url: {
-        type: DataTypes.STRING, // Link to the location on a map or external platform
-        allowNull: true, // This can be null if not provided
-      },
       auction: {
-        type: DataTypes.INTEGER, // True if property is being auctioned, otherwise false
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
       images: {
@@ -92,11 +72,15 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      sequelize,
-      modelName: "items", // Model name used for table
-      timestamps: true, // Automatically adds createdAt and updatedAt
+      modelName: "items",
+      timestamps: true,
     }
   );
+
+  // 🔗 Associations
+  Item.associate = (models) => {
+    Item.hasMany(models.carts, { foreignKey: "item_id" });
+  };
 
   return Item;
 };

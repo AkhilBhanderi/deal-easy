@@ -37,4 +37,7 @@ module.exports = {
   deleteItemSchema: Joi.object({
     item_id: validate.reqString,
   }),
+  cartSchema: Joi.object().keys({
+    item_id: validate.reqNumber,
+  }),
 };

@@ -40,4 +40,24 @@ router.post(
   itemController.deleteItem
 );
 
+//------------------------------ cart -------------------------//
+const cartController = require("../controllers/user/cartController");
+router.post(
+  "/user/addtocart",
+  userAuthentication,
+  ValidateBody(Schemas.cartSchema),
+  cartController.addToCart
+);
+router.get(
+  "/user/getcartitem",
+  userAuthentication,
+  cartController.getCartItems
+);
+router.post(
+  "/user/deletecartitem",
+  userAuthentication,
+  ValidateBody(Schemas.cartSchema),
+  cartController.deleteCart
+);
+
 module.exports = router;
