@@ -22,6 +22,8 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+// 🔥 serve uploadImages folder
+app.use("/uploadImages", express.static(path.join(__dirname, "uploadImages")));
 // app.use(response);
 
 // route apis
