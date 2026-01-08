@@ -1,4 +1,4 @@
-const { carts, items } = require("../../sequelize/models");
+const { carts, items, users, auctions } = require("../../sequelize/models");
 const createError = require("http-errors");
 
 module.exports = {
@@ -35,30 +35,45 @@ module.exports = {
     try {
       const offset = (pagenumber - 1) * limit;
 
-      const { rows: cartRows } = await carts.findAndCountAll({
+      const cartRows = await carts.findAll({
         where: {
           user_id,
           active: true,
         },
         limit,
         offset,
-        attributes: ["id"], // cart fields not needed in response
         include: [
           {
             model: items,
-            required: true,
-            where: {
-              active: true,
-            },
-            attributes: { exclude: ["updatedAt"] },
+            as: "item",
+            where: { active: true },
+            include: [
+              {
+                model: users,
+                as: "user",
+                attributes: ["id", "otp", "mobile_no", "active"],
+              },
+              {
+                model: auctions,
+                as: "auctions",
+                include: [
+                  {
+                    model: users,
+                    attributes: ["id", "otp", "mobile_no", "active"],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            model: users,
+            as: "user",
+            attributes: ["id", "otp", "mobile_no", "active"],
           },
         ],
       });
 
-      // 🔁 Extract item objects (same format as getAllItems)
-      const itemData = cartRows.map((row) => row.item);
-
-      return { itemData };
+      return { itemData: cartRows };
     } catch (error) {
       throw createError.InternalServerError(error.message);
     }

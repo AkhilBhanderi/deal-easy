@@ -60,4 +60,13 @@ router.post(
   cartController.deleteCart
 );
 
+//------------------------------ auction -------------------------//
+const auctionController = require("../controllers/user/auctionController");
+router.post(
+  "/user/addauction",
+  userAuthentication,
+  ValidateBody(Schemas.auctionSchema),
+  auctionController.addAuction
+);
+
 module.exports = router;

@@ -80,6 +80,8 @@ module.exports = (sequelize, DataTypes) => {
   // 🔗 Associations
   Item.associate = (models) => {
     Item.hasMany(models.carts, { foreignKey: "item_id" });
+    Item.belongsTo(models.users, { foreignKey: "user_id", as: "user" });
+    Item.hasMany(models.auctions, { foreignKey: "item_id", as: "auctions" });
   };
 
   return Item;

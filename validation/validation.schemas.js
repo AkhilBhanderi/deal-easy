@@ -40,4 +40,9 @@ module.exports = {
   cartSchema: Joi.object().keys({
     item_id: validate.reqNumber,
   }),
+  auctionSchema: Joi.object().keys({
+    item_id: validate.reqNumber,
+    owner_name: validate.reqString,
+    price: validate.reqString,
+  }),
 };

@@ -1,4 +1,4 @@
-const { items } = require("../../sequelize/models");
+const { items, auctions, users } = require("../../sequelize/models");
 const createError = require("http-errors");
 
 module.exports = {
@@ -13,19 +13,57 @@ module.exports = {
   getAllItems: async (deal_type, pagenumber = 1, limit = 10, user_id) => {
     try {
       const offset = (pagenumber - 1) * limit;
+
       const whereCondition = {
-        ...(deal_type && { deal_type }), // If deal_type is provided, add it to the filter
-        active: true, // Always include the condition to fetch only active items
-        ...(user_id && { user_id }), // ✅ only added if user_id exists
+        active: true,
+        ...(deal_type && { deal_type }),
+        ...(user_id && { user_id }),
       };
+
       const { rows: itemData } = await items.findAndCountAll({
         where: whereCondition,
-        limit: limit,
+        limit,
         offset,
         attributes: { exclude: ["updatedAt"] },
+        include: [
+          {
+            model: auctions,
+            as: "auctions",
+            required: false,
+            attributes: [
+              "id",
+              "item_id",
+              "user_id",
+              // "description",
+              "price",
+              "owner_name",
+              "createdAt",
+              "updatedAt",
+            ],
+            include: [
+              {
+                model: users,
+                as: "user",
+                attributes: ["id", "mobile_no", "otp", ],
+              },
+            ],
+          },
+        ],
       });
 
-      return { itemData };
+      // Map auctions to the auction field
+      const formattedItems = itemData.map((item) => {
+        const itemJSON = item.toJSON();
+
+        return {
+          ...itemJSON,
+          auction: itemJSON.auctions.length
+            ? itemJSON.auctions.map((a) => a.id) // you can store ids or latest auction id
+            : null, // if no auction
+        };
+      });
+
+      return { itemData: formattedItems };
     } catch (error) {
       throw createError.InternalServerError(error.message);
     }
