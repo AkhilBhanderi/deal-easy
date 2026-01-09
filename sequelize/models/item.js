@@ -40,6 +40,26 @@ module.exports = (sequelize, DataTypes) => {
       },
       pet_type: {
         type: DataTypes.STRING,
+        allowNull: false,
+      },
+      description_1: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      description_2: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      description_3: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      description_4: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      description_5: {
+        type: DataTypes.STRING,
         allowNull: true,
       },
       latitude: {
@@ -57,6 +77,10 @@ module.exports = (sequelize, DataTypes) => {
       property_type: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      location_url: {
+        type: DataTypes.STRING,
+        allowNull: true,
       },
       auction: {
         type: DataTypes.INTEGER,
