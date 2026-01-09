@@ -57,9 +57,9 @@ module.exports = {
 
         return {
           ...itemJSON,
-          auction: itemJSON.auctions.length
-            ? itemJSON.auctions.map((a) => a.id) // you can store ids or latest auction id
-            : null, // if no auction
+          // auction: itemJSON.auctions.length
+          //   ? itemJSON.auctions.map((a) => a.id) // you can store ids or latest auction id
+          //   : null, // if no auction
         };
       });
 
