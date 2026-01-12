@@ -1,25 +1,42 @@
+const { sequelize } = require("../../sequelize/models");
+const auctionService = require("../../services/user/auctionService");
 const itemService = require("../../services/user/itemService");
 const upload = require("../common/uploadImage");
 
 module.exports = {
   addItem: async (req, res, next) => {
+    const t = await sequelize.transaction(); // start transaction
     try {
       const reqData = req.body;
       reqData.user_id = req.user.id;
 
+      // Upload images
       const uploadLocal = await upload.multipleImageUpload(req.files?.images);
 
-      // ✅ Convert array of strings → array of objects
       if (uploadLocal?.status && uploadLocal?.data?.length) {
         const baseUrl =
           process.env.BASE_URL || "https://deal-easy.onrender.com";
-
         reqData.images = uploadLocal.data.map((imgPath) => ({
           image: `${baseUrl}/${imgPath.replace(/^\/+/, "")}`,
         }));
       }
 
-      await itemService.addItem(reqData);
+      // Create item
+      const itemData = await itemService.addItem(reqData, { transaction: t });
+
+      // Create auction if needed
+      if (reqData.auction === 1) {
+        const auctionData = {
+          user_id: req.user.id,
+          item_id: itemData.id, // make sure this matches your PK
+          owner_name: reqData.owner_name,
+          price: reqData.main_price,
+        };
+        await auctionService.addAuction(auctionData, { transaction: t });
+      }
+
+      // Commit transaction
+      await t.commit();
 
       return res.status(200).send({
         status: true,
@@ -28,6 +45,7 @@ module.exports = {
         },
       });
     } catch (error) {
+      await t.rollback(); // rollback on error
       next(error);
     }
   },
