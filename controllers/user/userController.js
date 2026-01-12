@@ -39,6 +39,8 @@ module.exports = {
 
       var token = jwt.sign(payload, JWT_SECRET_KEY);
 
+      const addToken = await userService.updateUser(existingUser.id, reqData);
+
       return res.status(200).send({
         status: true,
         0: {

@@ -51,7 +51,7 @@ module.exports = {
               {
                 model: users,
                 as: "user",
-                attributes: ["id", "otp", "mobile_no", "active"],
+                attributes: ["id", "otp", "mobile_no", "active", "fcm_token"],
               },
               {
                 model: auctions,
@@ -68,7 +68,7 @@ module.exports = {
           {
             model: users,
             as: "user",
-            attributes: ["id", "otp", "mobile_no", "active"],
+            attributes: ["id", "otp", "mobile_no", "fcm_token", "active"],
           },
         ],
       });

@@ -32,4 +32,19 @@ module.exports = {
       throw createError.InternalServerError(error.message);
     }
   },
+  updateUser: async (id, newData) => {
+    try {
+      const updateUser = await users.findByPk(id);
+      if (!updateUser) {
+        throw createError.BadRequest("Invalid user id.");
+      }
+
+      Object.assign(updateUser, newData);
+      await updateUser.save();
+
+      return updateUser;
+    } catch (err) {
+      throw createError.InternalServerError(err.message);
+    }
+  },
 };

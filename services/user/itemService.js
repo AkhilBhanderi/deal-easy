@@ -44,7 +44,7 @@ module.exports = {
               {
                 model: users,
                 as: "user",
-                attributes: ["id", "mobile_no", "otp", ],
+                attributes: ["id", "mobile_no", "otp", "active", "fcm_token"],
               },
             ],
           },
