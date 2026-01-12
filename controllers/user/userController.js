@@ -53,7 +53,7 @@ module.exports = {
               otp: existingUser.otp,
               mobile_no: existingUser.mobile_no,
               status: existingUser.active ? "1" : "0",
-              fcm_token: reqData.fcm_token || "",
+              fcm_token: addToken.fcm_token || "",
             },
           },
           exception: null, // Assuming there's no exception
