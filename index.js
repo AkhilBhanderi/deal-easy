@@ -3,7 +3,7 @@ require("dotenv").config();
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-var expressFile = require("express-fileupload");
+// var expressFile = require("express-fileupload");
 const http = require("http");
 const path = require("path");
 const router = require("./routes/index");
@@ -17,13 +17,13 @@ require("./sequelize/models");
 
 app.use(cors({ origin: "*" }));
 app.use(cookieParser());
-app.use(expressFile());
+// app.use(expressFile());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 // 🔥 serve uploadImages folder
-app.use("/uploadImages", express.static(path.join(__dirname, "uploadImages")));
+// app.use("/uploadImages", express.static(path.join(__dirname, "uploadImages")));
 // app.use(response);
 
 // route apis

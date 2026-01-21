@@ -1,5 +1,6 @@
 const commonUploadFunction = require("../../helpers/fileUpload.helper");
 const uploads = require("../../helpers/fileUpload.helper");
+const { cloudinary } = require("../../helpers/cloudinaryConfig");
 
 module.exports = {
   uploadImage: async (req, res) => {
@@ -15,7 +16,7 @@ module.exports = {
 
       const uploadToLocal = await commonUploadFunction.uploadMaterialToLocal(
         image,
-        path
+        path,
       );
 
       if (uploadToLocal.status) {
@@ -80,7 +81,7 @@ module.exports = {
         if (images) {
           const movetoAWS = await uploads.uploadMultipleMaterialToLocal(
             images?.length ? images : [images],
-            path
+            path,
           );
           if (!movetoAWS.status)
             return reject({ status: false, error: movetoAWS.message });
@@ -89,7 +90,7 @@ module.exports = {
               if (deleteUrl?.length > 0) {
                 await uploads.deleteMultipleFiles(deleteUrl);
                 const uploadArray = imagesArrayDb?.filter(
-                  (info) => !deleteUrl.includes(info)
+                  (info) => !deleteUrl.includes(info),
                 );
                 return resolve({
                   status: true,
@@ -111,7 +112,7 @@ module.exports = {
             return resolve({
               status: true,
               data: await imagesArrayDb?.filter(
-                (info) => !deleteUrl.includes(info)
+                (info) => !deleteUrl.includes(info),
               ),
             });
           } else {
@@ -169,5 +170,24 @@ module.exports = {
         return reject({ status: false, error: error });
       }
     });
+  },
+  multipleImageUploadOnCloudinary: async (files) => {
+    try {
+      if (!files || !files.length) return { status: true, data: [] };
+
+      const uploadedImages = [];
+
+      for (let file of files) {
+        const result = await cloudinary.uploader.upload(file.path, {
+          folder: "uploads",
+        });
+        uploadedImages.push(result.secure_url);
+      }
+
+      return { status: true, data: uploadedImages };
+    } catch (error) {
+      console.log("Cloudinary upload error:", error);
+      return { status: false, error };
+    }
   },
 };

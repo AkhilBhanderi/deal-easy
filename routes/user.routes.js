@@ -2,7 +2,7 @@ const express = require("express");
 const { ValidateBody } = require("../validation/validation.methods");
 const Schemas = require("../validation/validation.schemas");
 const { userAuthentication } = require("../helpers/auth.helper");
-
+const { parser } = require("../helpers/cloudinaryConfig");
 const router = express.Router();
 
 //------------------------------ user -------------------------//
@@ -10,13 +10,13 @@ const userController = require("../controllers/user/userController");
 router.post(
   "/auth/user/sendotp",
   ValidateBody(Schemas.userSchema),
-  userController.addUser
+  userController.addUser,
 );
 
 router.post(
   "/auth/user/verifyotp",
   ValidateBody(Schemas.verifyUserSchema),
-  userController.checkUserExistence
+  userController.checkUserExistence,
 );
 
 //------------------------------ item -------------------------//
@@ -24,20 +24,21 @@ const itemController = require("../controllers/user/itemController");
 router.post(
   "/user/additemdetails",
   userAuthentication,
+  parser.array("images", 10), // allow max 10 images per request
   ValidateBody(Schemas.itemSchema),
-  itemController.addItem
+  itemController.addItem,
 );
 router.get("/user/getallitem", userAuthentication, itemController.getAllItems);
 router.get(
   "/user/getitem",
   userAuthentication,
-  itemController.getPerticularItems
+  itemController.getPerticularItems,
 );
 router.post(
   "/user/deleteitem",
   userAuthentication,
   ValidateBody(Schemas.deleteItemSchema),
-  itemController.deleteItem
+  itemController.deleteItem,
 );
 
 //------------------------------ cart -------------------------//
@@ -46,18 +47,18 @@ router.post(
   "/user/addtocart",
   userAuthentication,
   ValidateBody(Schemas.cartSchema),
-  cartController.addToCart
+  cartController.addToCart,
 );
 router.get(
   "/user/getcartitem",
   userAuthentication,
-  cartController.getCartItems
+  cartController.getCartItems,
 );
 router.post(
   "/user/deletecartitem",
   userAuthentication,
   ValidateBody(Schemas.cartSchema),
-  cartController.deleteCart
+  cartController.deleteCart,
 );
 
 //------------------------------ auction -------------------------//
@@ -66,7 +67,7 @@ router.post(
   "/user/addauction",
   userAuthentication,
   ValidateBody(Schemas.auctionSchema),
-  auctionController.addAuction
+  auctionController.addAuction,
 );
 
 module.exports = router;
