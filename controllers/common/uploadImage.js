@@ -175,16 +175,13 @@ module.exports = {
     try {
       if (!files || !files.length) return { status: true, data: [] };
 
-      const uploadedImages = [];
+      const uploaded = [];
 
       for (let file of files) {
-        const result = await cloudinary.uploader.upload(file.path, {
-          folder: "uploads",
-        });
-        uploadedImages.push(result.secure_url);
+        uploaded.push(file.path); // Cloudinary URL
       }
 
-      return { status: true, data: uploadedImages };
+      return { status: true, data: uploaded };
     } catch (error) {
       console.log("Cloudinary upload error:", error);
       return { status: false, error };

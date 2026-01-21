@@ -10,12 +10,34 @@ cloudinary.config({
 
 const storage = new CloudinaryStorage({
   cloudinary,
-  params: {
-    folder: "uploads", // folder name in Cloudinary
-    allowed_formats: ["jpg", "jpeg", "png"],
+  params: async (req, file) => {
+    let resourceType = "image";
+
+    if (file.mimetype.startsWith("video")) {
+      resourceType = "video";
+    }
+
+    return {
+      folder: "uploads",
+      resource_type: resourceType,
+      public_id: `${Date.now()}-${file.originalname.split(".")[0]}`,
+    };
   },
 });
 
-const parser = multer({ storage });
+const parser = multer({
+  storage,
+  limits: { fileSize: 50 * 1024 * 1024 }, // 50MB
+  fileFilter: (req, file, cb) => {
+    if (
+      file.mimetype.startsWith("image") ||
+      file.mimetype.startsWith("video")
+    ) {
+      cb(null, true);
+    } else {
+      cb(new Error("Only image & video allowed"));
+    }
+  },
+});
 
 module.exports = { cloudinary, parser };
