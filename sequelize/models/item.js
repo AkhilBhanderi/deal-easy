@@ -82,6 +82,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
+      property_area_name: {
+        type: DataTypes.STRING,
+        defaultValue: "",
+      },
+      property_paper_type: {
+        type: DataTypes.STRING,
+        defaultValue: "",
+      },
       auction: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -98,7 +106,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       modelName: "items",
       timestamps: true,
-    }
+    },
   );
 
   // 🔗 Associations

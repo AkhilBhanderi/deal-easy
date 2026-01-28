@@ -31,6 +31,8 @@ module.exports = {
     main_price: validate.reqPositiveNumber,
     property_type: validate.reqString,
     location_url: Joi.string().uri().optional(),
+    property_area_name: validate.string,
+    property_paper_type: validate.string,
     auction: validate.reqNumber,
     image: validate.string,
   }),
