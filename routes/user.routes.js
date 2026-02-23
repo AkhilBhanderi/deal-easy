@@ -70,4 +70,29 @@ router.post(
   auctionController.addAuction,
 );
 
+//------------------------------ property feature -------------------------//
+const propertyFeatureController = require("../controllers/user/propertyFeatureController");
+router.post(
+  "/user/addpropertyfeature",
+  userAuthentication,
+  ValidateBody(Schemas.propertyFeatureSchema),
+  propertyFeatureController.addPropertyFeature,
+);
+router.put(
+  "/user/updatepropertyfeature/:id",
+  userAuthentication,
+  ValidateBody(Schemas.propertyFeatureSchema),
+  propertyFeatureController.updatePropertyFeature,
+);
+router.get(
+  "/user/getallpropertyfeature",
+  userAuthentication,
+  propertyFeatureController.getAllPropertyFeatures,
+);
+router.get(
+  "/user/getonepropertyfeature/:id",
+  userAuthentication,
+  propertyFeatureController.getOnePropertyFeature,
+);
+
 module.exports = router;

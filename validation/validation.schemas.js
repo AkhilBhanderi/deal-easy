@@ -47,4 +47,12 @@ module.exports = {
     owner_name: validate.reqString,
     price: validate.reqString,
   }),
+  auctionSchema: Joi.object().keys({
+    item_id: validate.reqNumber,
+    owner_name: validate.reqString,
+    price: validate.reqString,
+  }),
+  propertyFeatureSchema: Joi.object().keys({
+    property_feature: validate.object,
+  }),
 };
