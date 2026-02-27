@@ -100,7 +100,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       facilities: {
         type: DataTypes.JSONB,
-        allowNull: false,
+        allowNull: true,
       },
       active: {
         type: DataTypes.BOOLEAN,

@@ -10,6 +10,8 @@ module.exports = {
       const reqData = req.body;
       reqData.user_id = req.user.id;
 
+      reqData.facilities = JSON.parse(reqData.facilities);
+
       // Upload images to Cloudinary
       const uploadCloud = await upload.multipleImageUploadOnCloudinary(
         req.files,

@@ -35,6 +35,7 @@ module.exports = {
     property_paper_type: validate.string,
     auction: validate.reqNumber,
     image: validate.string,
+    facilities: validate.string,
   }),
   deleteItemSchema: Joi.object({
     item_id: validate.reqString,
