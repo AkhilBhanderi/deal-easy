@@ -16,6 +16,7 @@ module.exports = {
     price_sort,
     pet_sort,
     date_sort,
+    property_type,
     search,
     pagenumber = 1,
     limit = 10,
@@ -33,6 +34,10 @@ module.exports = {
       // Deal Type Filter
       if (deal_type) {
         whereCondition.deal_type = deal_type;
+      }
+
+      if (property_type) {
+        whereCondition.property_type = property_type;
       }
 
       // Search Filter
