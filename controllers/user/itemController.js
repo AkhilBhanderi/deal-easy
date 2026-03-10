@@ -47,59 +47,45 @@ module.exports = {
       next(error);
     }
   },
-  // addItem: async (req, res, next) => {
-  //   const t = await sequelize.transaction(); // start transaction
+  // getAllItems: async (req, res, next) => {
   //   try {
-  //     const reqData = req.body;
-  //     reqData.user_id = req.user.id;
-
-  //     // Upload images
-  //     const uploadLocal = await upload.multipleImageUpload(req.files?.images);
-
-  //     if (uploadLocal?.status && uploadLocal?.data?.length) {
-  //       const baseUrl =
-  //         process.env.BASE_URL || "https://deal-easy.onrender.com";
-  //       reqData.images = uploadLocal.data.map((imgPath) => ({
-  //         image: `${baseUrl}/${imgPath.replace(/^\/+/, "")}`,
-  //       }));
-  //     }
-
-  //     // Create item
-  //     const itemData = await itemService.addItem(reqData, { transaction: t });
-
-  //     // Create auction if needed
-  //     if (reqData.auction === 1) {
-  //       const auctionData = {
-  //         user_id: req.user.id,
-  //         item_id: itemData.id, // make sure this matches your PK
-  //         owner_name: reqData.owner_name,
-  //         price: reqData.main_price,
-  //       };
-  //       await auctionService.addAuction(auctionData, { transaction: t });
-  //     }
-
-  //     // Commit transaction
-  //     await t.commit();
-
+  //     const { deal_type, pagenumber = 1, limit = 10 } = req.query;
+  //     const { itemData } = await itemService.getAllItems(
+  //       deal_type,
+  //       pagenumber,
+  //       limit,
+  //     );
   //     return res.status(200).send({
   //       status: true,
-  //       data: {
-  //         message: "Item Added Successfully!!",
-  //       },
+  //       data: itemData,
   //     });
-  //   } catch (error) {
-  //     await t.rollback(); // rollback on error
-  //     next(error);
+  //   } catch (err) {
+  //     next(err);
   //   }
   // },
+
   getAllItems: async (req, res, next) => {
     try {
-      const { deal_type, pagenumber = 1, limit = 10 } = req.query;
+      const {
+        deal_type,
+        price_sort,
+        pet_sort,
+        date_sort,
+        search,
+        pagenumber = 1,
+        limit = 10,
+      } = req.query;
+
       const { itemData } = await itemService.getAllItems(
         deal_type,
+        price_sort,
+        pet_sort,
+        date_sort,
+        search,
         pagenumber,
         limit,
       );
+
       return res.status(200).send({
         status: true,
         data: itemData,
@@ -113,6 +99,10 @@ module.exports = {
       const { deal_type, pagenumber = 1, limit = 10 } = req.query;
       const { itemData } = await itemService.getAllItems(
         deal_type,
+        null,
+        null,
+        null,
+        null,
         pagenumber,
         limit,
         req.user.id,

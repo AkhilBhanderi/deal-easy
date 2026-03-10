@@ -52,7 +52,6 @@ module.exports = {
               isAuth: false,
               data: [],
             });
-
           // ✅ Attach logged-in user to request
           req.user = {
             id: getUserData.id,
@@ -64,7 +63,7 @@ module.exports = {
       } catch (error) {
         console.error(
           "Database Query Error:",
-          error.stack || error.message || error
+          error.stack || error.message || error,
         );
         return res.status(500).json({
           success: false,

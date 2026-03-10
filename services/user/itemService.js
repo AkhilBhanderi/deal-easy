@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const { items, auctions, users } = require("../../sequelize/models");
 const createError = require("http-errors");
 
@@ -10,20 +11,62 @@ module.exports = {
       throw createError.InternalServerError(error);
     }
   },
-  getAllItems: async (deal_type, pagenumber = 1, limit = 10, user_id) => {
+  getAllItems: async (
+    deal_type,
+    price_sort,
+    pet_sort,
+    date_sort,
+    search,
+    pagenumber = 1,
+    limit = 10,
+    user_id,
+  ) => {
     try {
       const offset = (pagenumber - 1) * limit;
 
       const whereCondition = {
         active: true,
-        ...(deal_type && { deal_type }),
+        // ...(deal_type && { deal_type }),
         ...(user_id && { user_id }),
       };
+
+      // Deal Type Filter
+      if (deal_type) {
+        whereCondition.deal_type = deal_type;
+      }
+
+      // Search Filter
+      if (search) {
+        whereCondition[Op.or] = [
+          { description_1: { [Op.iLike]: `%${search}%` } },
+          { property_area_name: { [Op.iLike]: `%${search}%` } },
+          { pincode: { [Op.iLike]: `%${search}%` } },
+          { country: { [Op.iLike]: `%${search}%` } },
+          { state: { [Op.iLike]: `%${search}%` } },
+          { city: { [Op.iLike]: `%${search}%` } },
+        ];
+      }
+
+      let order = [];
+
+      // Newest / Oldest filter
+      if (date_sort) {
+        order.push(["createdAt", date_sort === "new" ? "DESC" : "ASC"]);
+      }
+
+      if (price_sort) {
+        order.push(["main_price", price_sort === "lth" ? "ASC" : "DESC"]);
+      }
+
+      if (pet_sort) {
+        order.push(["pet_type", pet_sort === "sqlth" ? "ASC" : "DESC"]);
+      }
 
       const { rows: itemData } = await items.findAndCountAll({
         where: whereCondition,
         limit,
         offset,
+        order,
         attributes: { exclude: ["updatedAt"] },
         include: [
           {
