@@ -72,6 +72,7 @@ module.exports = {
         pet_sort,
         date_sort,
         property_type,
+        budget,
         search,
         pagenumber = 1,
         limit = 10,
@@ -83,6 +84,7 @@ module.exports = {
         pet_sort,
         date_sort,
         property_type,
+        budget,
         search,
         pagenumber,
         limit,
@@ -101,6 +103,7 @@ module.exports = {
       const { deal_type, pagenumber = 1, limit = 10 } = req.query;
       const { itemData } = await itemService.getAllItems(
         deal_type,
+        null,
         null,
         null,
         null,

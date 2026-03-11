@@ -102,6 +102,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.JSONB,
         allowNull: true,
       },
+      bhk_data: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      interior_data: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       active: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,

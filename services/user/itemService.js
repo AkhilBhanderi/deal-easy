@@ -17,6 +17,7 @@ module.exports = {
     pet_sort,
     date_sort,
     property_type,
+    budget,
     search,
     pagenumber = 1,
     limit = 10,
@@ -38,6 +39,13 @@ module.exports = {
 
       if (property_type) {
         whereCondition.property_type = property_type;
+      }
+
+      // Budget Filter
+      if (budget) {
+        whereCondition.main_price = {
+          [Op.lte]: budget,
+        };
       }
 
       // Search Filter
