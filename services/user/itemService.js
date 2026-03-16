@@ -137,6 +137,9 @@ module.exports = {
     date_sort,
     property_type,
     budget,
+    description_3,
+    interior_data,
+    bhk_data,
     search,
     pagenumber = 1,
     limit = 10,
@@ -158,6 +161,18 @@ module.exports = {
       // Property Type Filter
       if (property_type) {
         whereCondition.property_type = property_type;
+      }
+
+      if (description_3) {
+        whereCondition.description_3 = description_3;
+      }
+
+      if (interior_data) {
+        whereCondition.interior_data = interior_data;
+      }
+
+      if (bhk_data) {
+        whereCondition.bhk_data = bhk_data;
       }
 
       // Budget Filter
