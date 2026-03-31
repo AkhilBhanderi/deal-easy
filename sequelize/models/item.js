@@ -110,6 +110,18 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
+      flour_no: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      property_view: {
+        type: DataTypes.JSONB,
+        allowNull: true,
+      },
+      view_facing: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       active: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,

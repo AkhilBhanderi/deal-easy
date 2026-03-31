@@ -38,6 +38,9 @@ module.exports = {
     facilities: validate.string,
     bhk_data: validate.string,
     interior_data: validate.string,
+    flour_no: validate.string,
+    property_view: validate.string,
+    view_facing: validate.string,
   }),
   deleteItemSchema: Joi.object({
     item_id: validate.reqString,
