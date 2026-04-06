@@ -122,6 +122,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
+      total_floor: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      property_user_type: {
+        type: DataTypes.JSONB,
+        allowNull: true,
+      },
       active: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
