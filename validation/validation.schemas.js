@@ -44,6 +44,8 @@ module.exports = {
     total_floor: validate.string,
     property_user_type: validate.string,
     post_by: validate.string,
+    property_from: validate.string,
+    property_age: validate.string,
   }),
   deleteItemSchema: Joi.object({
     item_id: validate.reqString,

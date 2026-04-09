@@ -134,6 +134,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
+      property_from: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      property_age: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       active: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
