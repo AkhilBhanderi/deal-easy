@@ -140,6 +140,9 @@ module.exports = {
     description_3,
     interior_data,
     bhk_data,
+    facing_direction,
+    posted_by,
+    bathroom_toilet_count,
     search,
     pagenumber = 1,
     limit = 10,
@@ -173,6 +176,18 @@ module.exports = {
 
       if (bhk_data) {
         whereCondition.bhk_data = bhk_data;
+      }
+
+      if (facing_direction) {
+        whereCondition.view_facing = facing_direction;
+      }
+
+      if (posted_by) {
+        whereCondition.post_by = posted_by;
+      }
+
+      if (bathroom_toilet_count) {
+        whereCondition.bathroom_toilet_count = bathroom_toilet_count;
       }
 
       // Budget Filter

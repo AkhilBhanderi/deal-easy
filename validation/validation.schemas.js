@@ -46,6 +46,7 @@ module.exports = {
     post_by: validate.string,
     property_from: validate.string,
     property_age: validate.string,
+    bathroom_toilet_count: validate.string,
   }),
   deleteItemSchema: Joi.object({
     item_id: validate.reqString,
