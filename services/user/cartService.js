@@ -31,9 +31,18 @@ module.exports = {
   },
 
   // 📄 Get cart items (user wise)
-  getCartItems: async (user_id, pagenumber = 1, limit = 10) => {
+  getCartItems: async (user_id, pagenumber = 1, limit = 10, deal_type) => {
     try {
       const offset = (pagenumber - 1) * limit;
+
+      const itemWhere = {
+        active: true,
+      };
+
+      // ✅ deal_type filter
+      if (deal_type) {
+        itemWhere.deal_type = deal_type;
+      }
 
       const cartRows = await carts.findAll({
         where: {
@@ -46,7 +55,7 @@ module.exports = {
           {
             model: items,
             as: "item",
-            where: { active: true },
+            where: itemWhere,
             include: [
               {
                 model: users,

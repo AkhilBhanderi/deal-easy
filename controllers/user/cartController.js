@@ -5,7 +5,7 @@ module.exports = {
   addToCart: async (req, res, next) => {
     try {
       const reqData = req.body;
-      (reqData.user_id = req.user.id), await cartService.addToCart(reqData);
+      ((reqData.user_id = req.user.id), await cartService.addToCart(reqData));
 
       return res.status(200).send({
         status: true,
@@ -21,12 +21,13 @@ module.exports = {
   // 📄 Get all cart items (user wise)
   getCartItems: async (req, res, next) => {
     try {
-      const { pagenumber = 1, limit = 10 } = req.query;
+      const { pagenumber = 1, limit = 10, deal_type } = req.query;
 
       const { itemData } = await cartService.getCartItems(
         req.user.id,
         pagenumber,
-        limit
+        limit,
+        deal_type,
       );
 
       return res.status(200).send({
