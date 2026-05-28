@@ -68,17 +68,23 @@ module.exports = {
                 include: [
                   {
                     model: users,
-                    attributes: ["id", "otp", "mobile_no", "active"],
+                    attributes: [
+                      "id",
+                      "otp",
+                      "mobile_no",
+                      "fcm_token",
+                      "active",
+                    ],
                   },
                 ],
               },
             ],
           },
-          {
-            model: users,
-            as: "user",
-            attributes: ["id", "otp", "mobile_no", "fcm_token", "active"],
-          },
+          // {
+          //   model: users,
+          //   as: "user",
+          //   attributes: ["id", "otp", "mobile_no", "fcm_token", "active"],
+          // },
         ],
       });
 
