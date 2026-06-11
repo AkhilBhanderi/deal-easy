@@ -1,4 +1,10 @@
-const { carts, items, users, auctions } = require("../../sequelize/models");
+const {
+  carts,
+  items,
+  users,
+  auctions,
+  sequelize,
+} = require("../../sequelize/models");
 const createError = require("http-errors");
 
 module.exports = {
@@ -56,11 +62,14 @@ module.exports = {
             model: items,
             as: "item",
             where: itemWhere,
+            attributes: {
+              include: [[sequelize.col("item->user.mobile_no"), "mobile_no"]],
+            },
             include: [
               {
                 model: users,
                 as: "user",
-                attributes: ["id", "otp", "mobile_no", "active", "fcm_token"],
+                attributes: [],
               },
               {
                 model: auctions,
