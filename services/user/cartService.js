@@ -1,10 +1,4 @@
-const {
-  carts,
-  items,
-  users,
-  auctions,
-  sequelize,
-} = require("../../sequelize/models");
+const { carts, items, users, auctions } = require("../../sequelize/models");
 const createError = require("http-errors");
 
 module.exports = {
@@ -62,14 +56,11 @@ module.exports = {
             model: items,
             as: "item",
             where: itemWhere,
-            attributes: {
-              include: [[sequelize.col("item->user.mobile_no"), "mobile_no"]],
-            },
             include: [
               {
                 model: users,
                 as: "user",
-                attributes: [],
+                attributes: ["mobile_no"],
               },
               {
                 model: auctions,
@@ -97,7 +88,19 @@ module.exports = {
         ],
       });
 
-      return { itemData: cartRows };
+      // flatten owner mobile_no onto the item object (no nested user object)
+      const itemData = cartRows.map((row) => {
+        const plain = row.toJSON();
+        if (plain.item) {
+          plain.item.mobile_no = plain.item.user
+            ? plain.item.user.mobile_no
+            : null;
+          delete plain.item.user;
+        }
+        return plain;
+      });
+
+      return { itemData };
     } catch (error) {
       throw createError.InternalServerError(error.message);
     }
